@@ -5,6 +5,7 @@ class Solution:
         self.length = 0
         self.maxLen = 0
         self.result = []
+        self.longestDict = dict()
 
     def _getLengthOfLIS(self, A):
         n = len(A)
@@ -16,29 +17,28 @@ class Solution:
             self.lkDict[i] = li
 
     def reGetLengthOfLIS(self, A, index: int):
+        if index in self.longestDict.keys():
+            return self.longestDict[index]
         self.result.append(A[index])
-        # self.length += 1
         _max = 0
         if self.lkDict[index]:
             for i in self.lkDict[index]:
                 _max = max(_max, 1 + self.reGetLengthOfLIS(A, i))
+            self.longestDict[index] = _max
             return _max
         else:
-            # if self.length > self.maxLen:
-            if _max > 
-                self.maxLen = self.length
-                print(self.result)
-        # self.length -= 1
-        self.result.pop()
+            self.longestDict[index] = 1
+            return 1
 
     def getLengthOfLIS(self, A) -> int:
         self.__init__()
         self._getLengthOfLIS(A)
+        _max = 0
         for i in range(len(A)):
             self.length = 0
             self.result = []
-            self.reGetLengthOfLIS(A, i)
-        return self.maxLen
+            _max = max(_max, self.reGetLengthOfLIS(A, i))
+        return _max
 
     def printDict(self, arr):
         for key, values in self.lkDict.items():
